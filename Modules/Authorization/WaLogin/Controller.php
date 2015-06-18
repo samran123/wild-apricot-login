@@ -251,11 +251,17 @@ class WA_Modules_Authorization_WaLogin_Controller
 
     public function getRedirectUri($redirectUri = '', $removeLoginArgs = true)
     {
+        $homeUrl = home_url();
+        $homePath = wp_make_link_relative($homeUrl);
+
+        $homeUrl = ($homeUrl == $homePath) ? $homeUrl : substr($homeUrl, 0, strlen($homeUrl) - strlen($homePath));
+
         $redirectUri = WA_Utils::isNotEmptyString($redirectUri)
             ? WA_Utils::sanitizeString($redirectUri)
             : WA_Utils::sanitizeString($_SERVER['REQUEST_URI']);
 
-        $redirectUri = home_url(wp_make_link_relative($redirectUri));
+        $redirectUri = wp_make_link_relative($redirectUri);
+        $redirectUri = rtrim($homeUrl, '/') . '/' . ltrim($redirectUri, '/');
 
         if ($removeLoginArgs)
         {

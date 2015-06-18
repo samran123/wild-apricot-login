@@ -4,7 +4,7 @@ Donate link: http://www.wildapricot.com/
 Tags: Wild Apricot, members, membership management, events, event management, single sign-on
 Requires at least: 4.0.1
 Tested up to: 4.2.2
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -99,10 +99,16 @@ Restricted content.
 
 == Changelog ==
 
+= 1.0.2 =
+* Removed a bug related to inability of logging in if WP was installed to non-root folder
+
 = 1.0.1 =
 * Initial stable release.
 
 == Upgrade Notice ==
+
+= 1.0.2 =
+* Removed a bug related to inability of logging in if WP was installed to non-root folder
 
 = 1.0.1 =
 * Initial stable release.
