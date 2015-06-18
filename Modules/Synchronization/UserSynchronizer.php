@@ -51,10 +51,10 @@ class WA_Modules_Synchronization_UserSynchronizer
               'user_login' => $userLogin,
               'user_nicename' => $userLogin,
               'user_email' => WA_Utils::sanitizeEmail($waContact->Email),
-              'display_name' => WA_Utils::sanitizeString($waContact->DisplayName),
-              'nickname' => WA_Utils::sanitizeString($waContact->DisplayName),
-              'first_name' => WA_Utils::sanitizeString($waContact->FirstName),
-              'last_name' => WA_Utils::sanitizeString($waContact->LastName),
+              'display_name' => empty($waContact->DisplayName) ? '' : WA_Utils::sanitizeString($waContact->DisplayName),
+              'nickname' => empty($waContact->DisplayName) ? '' : WA_Utils::sanitizeString($waContact->DisplayName),
+              'first_name' => empty($waContact->FirstName) ? '' : WA_Utils::sanitizeString($waContact->FirstName),
+              'last_name' => empty($waContact->LastName) ? '' : WA_Utils::sanitizeString($waContact->LastName),
               'role' => $userRole
           )
         );
@@ -77,10 +77,10 @@ class WA_Modules_Synchronization_UserSynchronizer
             (
                 'ID' => $wpUser->ID,
                 'user_email' => WA_Utils::sanitizeEmail($waContact->Email),
-                'display_name' => WA_Utils::sanitizeString($waContact->DisplayName),
-                'nickname' => WA_Utils::sanitizeString($waContact->DisplayName),
-                'first_name' => WA_Utils::sanitizeString($waContact->FirstName),
-                'last_name' => WA_Utils::sanitizeString($waContact->LastName),
+                'display_name' => empty($waContact->DisplayName) ? '' : WA_Utils::sanitizeString($waContact->DisplayName),
+                'nickname' => empty($waContact->DisplayName) ? '' : WA_Utils::sanitizeString($waContact->DisplayName),
+                'first_name' => empty($waContact->FirstName) ? '' : WA_Utils::sanitizeString($waContact->FirstName),
+                'last_name' => empty($waContact->LastName) ? '' : WA_Utils::sanitizeString($waContact->LastName),
                 'role' => $userRole
             )
         );

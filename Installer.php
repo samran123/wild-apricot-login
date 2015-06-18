@@ -36,4 +36,14 @@ class WA_Installer
         delete_option($config['option_name']);
         delete_option($config['settings_option_name']);
     }
+
+    public static function preUpgrade()
+    {
+        WA_Modules_Base_Crypt_AES::preUpgrade();
+    }
+
+    public static function postUpgrade()
+    {
+        WA_Modules_Base_Crypt_AES::postUpgrade();
+    }
 }

@@ -126,6 +126,6 @@ class WA_Modules_Base_Options implements WA_Modules_Interfaces_IOptions
 
     protected function load()
     {
-        throw new Exception('You must implement "update" method.');
+        throw new Exception('You must implement "load" method.');
     }
 }

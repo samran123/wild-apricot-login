@@ -4,7 +4,7 @@
     Plugin Name: Wild Apricot Login
     Plugin URI: http://www.wildapricot.com/
     Description: Provides single sign-on service for Wild Apricot members to provide access to restricted Wild Apricot content.
-    Version: 1.0.2
+    Version: 1.0.3
     Author: Wild Apricot
     Author URI: http://www.wildapricot.com/
     License: GPL2
@@ -19,7 +19,7 @@ class WaIntegrationPlugin
     private static $config = array
     (
         // General settings
-        'version' => '1.0.2',
+        'version' => '1.0.3',
 
         // WA services settings
         'wa_oauth_provider_url' => 'https://oauth.wildapricot.org', // wa OAuth2 service url
@@ -65,14 +65,35 @@ class WaIntegrationPlugin
 
     public function __construct()
     {
+        self::initClassLoader();
+
         add_action('plugins_loaded', array($this, 'initModules'));
+
         register_activation_hook(__FILE__, array(__CLASS__, 'install'));
         register_uninstall_hook(__FILE__, array(__CLASS__, 'uninstall'));
+
+        add_filter('upgrader_pre_install', array($this, 'preUpgrade'), 10, 2);
+        add_filter('upgrader_post_install', array($this, 'postUpgrade'), 10, 2);
+    }
+
+    public function preUpgrade($res, $args)
+    {
+        if (isset($args['plugin']) && $args['plugin'] == 'wild-apricot-login/wild-apricot-login.php')
+        {
+            WA_Installer::preUpgrade();
+        }
+    }
+
+    public function postUpgrade($res, $args)
+    {
+        if (isset($args['plugin']) && $args['plugin'] == 'wild-apricot-login/wild-apricot-login.php')
+        {
+            WA_Installer::postUpgrade();
+        }
     }
 
     public static function install()
     {
-        self::initClassLoader();
         $result = WA_Installer::install(self::$config);
 
         if (is_wp_error($result))
@@ -83,7 +104,6 @@ class WaIntegrationPlugin
 
     public static function uninstall()
     {
-        self::initClassLoader();
         WA_Installer::uninstall(self::$config);
     }
 
@@ -94,7 +114,6 @@ class WaIntegrationPlugin
 
     public function initModules()
     {
-        self::initClassLoader();
         $core = $this->initCoreModule();
 
         foreach (self::$config['modules_data'] as $moduleData)

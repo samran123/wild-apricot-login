@@ -9,10 +9,7 @@ class WA_Modules_Base_Crypt_AES
 
     public function __construct()
     {
-        if (empty(self::$AES))
-        {
-            $this->setAES();
-        }
+        self::setAES();
     }
 
     public function encrypt($text)
@@ -23,10 +20,34 @@ class WA_Modules_Base_Crypt_AES
     public function decrypt($text)
     {
         $text = trim(base64_decode($text));
+
         return self::$AES->decrypt($text);
     }
 
     public static function install()
+    {
+        return self::storeCryptConfig(
+            str_replace("'", '"', wp_generate_password(16, true, true)),
+            str_replace("'", '"', wp_generate_password(16, true, true)),
+            str_replace("'", '"', base64_encode(self::createIV()))
+        );
+    }
+
+    public static function preUpgrade()
+    {
+        self::setAES();
+    }
+
+    public static function postUpgrade()
+    {
+        return self::storeCryptConfig(
+            self::$config['salt'],
+            self::$config['password'],
+            str_replace("'", '"', base64_encode(self::$config['iv']))
+        );
+    }
+
+    private static function storeCryptConfig($salt, $password, $iv)
     {
         $confString = implode(
             "\n",
@@ -34,9 +55,9 @@ class WA_Modules_Base_Crypt_AES
                 '<?php',
                 '',
                 'return array(',
-                "    'salt' => '" . str_replace("'", '"', wp_generate_password(16, true, true)) . "',",
-                "    'password' => '" . str_replace("'", '"', wp_generate_password(16, true, true)) . "',",
-                "    'iv' => '" . str_replace("'", '"', base64_encode(self::createIV())) . "'",
+                "    'salt' => '" . $salt . "',",
+                "    'password' => '" . $password . "',",
+                "    'iv' => '" . $iv . "'",
                 ');'
             )
         );
@@ -54,8 +75,10 @@ class WA_Modules_Base_Crypt_AES
         return wp_normalize_path(dirname(__FILE__) . '/') . self::CONFIG_FILE;
     }
 
-    private function setAES()
+    private static function setAES()
     {
+        if (!empty(self::$AES)) { return; }
+
         self::$config = require_once(self::getConfigFilePath());
         self::$config['iv'] = base64_decode(self::$config['iv']);
 
