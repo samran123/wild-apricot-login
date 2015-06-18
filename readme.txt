@@ -12,9 +12,9 @@ Provides single sign-on service for Wild Apricot members to provide access to re
 
 == Description ==
 
-The [Wild Apricot](http://www.wildapricot.com/) Login plugin allows you to restrict content on your WordPress to your Wild Apricot members, and provide access to restricted Wild Apricot content such as member directories and member-only events. Any restricted Wild Apricot content – embedded using Wild Apricot widgets – can be accessed without further authentication. 
+The [Wild Apricot](http://www.wildapricot.com/) Login plugin allows you to restrict content on your WordPress to your Wild Apricot members, and provide access to restricted Wild Apricot content such as member directories and member-only events. Any restricted Wild Apricot content - embedded using Wild Apricot widgets - can be accessed without further authentication. 
 
-You can display a login button for single sign-on by adding a widget – installed along with the Wild Apricot Login plugin – to the header in your WordPress theme layout, or by inserting a shortcode in your page content. A shortcode can be added to a WordPress page to restrict WordPress content to Wild Apricot members. As well, you can use the plugin to add Wild Apricot membership levels as WordPress roles.
+You can display a login button for single sign-on by adding a widget - installed along with the Wild Apricot Login plugin - to the header in your WordPress theme layout, or by inserting a shortcode in your page content. A shortcode can be added to a WordPress page to restrict WordPress content to Wild Apricot members. As well, you can use the plugin to add Wild Apricot membership levels as WordPress roles.
 
 == Installation ==
 
@@ -52,9 +52,9 @@ To install the plugin manually, follow these steps:
 
 = How do I add a button for single sign-on to my WordPress site? =
 
-You can display a login button for single sign-on by adding a widget – installed along with the Wild Apricot Login plugin – to the header in your WordPress theme layout, or by inserting a shortcode in your page content.
+You can display a login button for single sign-on by adding a widget - installed along with the Wild Apricot Login plugin - to the header in your WordPress theme layout, or by inserting a shortcode in your page content.
 
-To display the login button within your WordPress theme header – which can appear as a sidebar for some themes – follow these steps:
+To display the login button within your WordPress theme header - which can appear as a sidebar for some themes - follow these steps:
 
 1. Under your Dashboard, hover over Appearance then select the Themes option.
 1. From the Themes screen, click the Customize button for your current theme.
