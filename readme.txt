@@ -36,7 +36,7 @@ To install the plugin automatically, follow these steps:
 
 To install the plugin manually, follow these steps:
 
-1. Download the zip file containing the Wild Apricot plugin files. You can download the zip file from [http://help.wildapricot.com/display/DOC/Integrating+with+WordPress](http://help.wildapricot.com/display/DOC/Integrating+with+WordPress)
+1. Click the Download link above to download the zip file containing the Wild Apricot plugin files.
 1. Within your Dashboard, hover over the Plugins menu and choose the Add New option.
 1. Click the Upload Plugin button. 
 1. Click the Choose File button and locate the zip file you downloaded.
