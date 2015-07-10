@@ -23,11 +23,11 @@ class WA_Modules_Synchronization_RolesSynchronizer
 
     public function onRolesOptionUpdateStart($newRoles)
     {
-        WA_Lock_Provider::wait(self::UPDATE_ROLES_LOCK_ID, self::UPDATE_ROLES_LOCK_TIME);
-        WA_Lock_Provider::acquire(self::UPDATE_ROLES_LOCK_ID, self::UPDATE_ROLES_LOCK_TIME);
-
         if (isset($newRoles[self::FAKE_WA_ROLE_ID]))
         {
+            WA_Lock_Provider::wait(self::UPDATE_ROLES_LOCK_ID, self::UPDATE_ROLES_LOCK_TIME);
+            WA_Lock_Provider::acquire(self::UPDATE_ROLES_LOCK_ID, self::UPDATE_ROLES_LOCK_TIME);
+
             unset($newRoles[self::FAKE_WA_ROLE_ID]);
 
             return $this->syncWpRolesWithWaLevels($newRoles);
@@ -42,9 +42,9 @@ class WA_Modules_Synchronization_RolesSynchronizer
         {
             $this->waLevelsToSync = null;
             $this->wpRoles->reinit();
-        }
 
-        WA_Lock_Provider::release(self::UPDATE_ROLES_LOCK_ID);
+            WA_Lock_Provider::release(self::UPDATE_ROLES_LOCK_ID);
+        }
     }
 
     public function syncWaRoles($waLevels)
