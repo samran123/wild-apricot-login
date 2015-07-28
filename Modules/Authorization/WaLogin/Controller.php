@@ -102,7 +102,7 @@ class WA_Modules_Authorization_WaLogin_Controller
         {
             case $this->getLogoutState():
             {
-                $this->resetLoginData();
+                $this->resetLoginData(true);
                 $this->selfLogout = true;
                 wp_logout();
                 break;
@@ -110,7 +110,7 @@ class WA_Modules_Authorization_WaLogin_Controller
 
             case $this->getLoginState():
             {
-                $this->resetLoginData();
+                $this->resetLoginData(true);
                 $code = WA_Utils::sanitizeString($_GET[self::CODE_ID]);
 
                 if (empty($code)) { return; }
@@ -346,7 +346,7 @@ class WA_Modules_Authorization_WaLogin_Controller
         }
     }
 
-    private function resetLoginData()
+    private function resetLoginData($isStateChanged = false)
     {
         $storedError = $this->module->getSessionData(self::LOGIN_ERROR_ID);
 
@@ -356,10 +356,14 @@ class WA_Modules_Authorization_WaLogin_Controller
         }
 
         $this->module->unsetSessionData(self::LOGIN_ERROR_ID);
-        $this->module->unsetSessionData(self::LOGIN_STATE_ID);
-        $this->module->unsetSessionData(self::LOGOUT_STATE_ID);
         $this->oAuth2Token = null;
         $this->wpUserId = null;
+
+        if ($isStateChanged === true)
+        {
+            $this->module->unsetSessionData(self::LOGIN_STATE_ID);
+            $this->module->unsetSessionData(self::LOGOUT_STATE_ID);
+        }
     }
 
     private function getLoginState()
