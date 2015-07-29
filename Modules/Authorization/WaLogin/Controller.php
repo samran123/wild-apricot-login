@@ -10,9 +10,9 @@ class WA_Modules_Authorization_WaLogin_Controller
     const OAUTH2_SCOPE = 'contacts_me';
     const OAUTH2_RESPONSE_TYPE = 'authorization_code';
 
-    const LOGIN_STATE_ID = 'LoginState';
+    const LOGIN_STATE = 'WaWpIntegrationLogin';
     const LOGIN_REDIRECT_URI_ID = 'LoginRedirectUri';
-    const LOGOUT_STATE_ID = 'LogoutState';
+    const LOGOUT_STATE = 'WaWpIntegrationLogout';
     const LOGIN_ERROR_ID = 'LoginError';
     const LOGIN_ACTION_ID = 'waLoginAction';
     const CODE_ID = 'code';
@@ -80,7 +80,7 @@ class WA_Modules_Authorization_WaLogin_Controller
 
         $getParams = $this->mixInGetParams(
             array(
-                self::STATE_ID => $this->getLogoutState(),
+                self::STATE_ID => self::LOGOUT_STATE,
                 self::LOGIN_ACTION_ID => 'Logout'
             )
         );
@@ -98,19 +98,19 @@ class WA_Modules_Authorization_WaLogin_Controller
     {
         $state = isset($_GET[self::STATE_ID]) ? WA_Utils::sanitizeString($_GET[self::STATE_ID]) : '';
 
+        $this->resetLoginData();
+
         switch ($state)
         {
-            case $this->getLogoutState():
+            case self::LOGOUT_STATE:
             {
-                $this->resetLoginData(true);
                 $this->selfLogout = true;
                 wp_logout();
                 break;
             }
 
-            case $this->getLoginState():
+            case self::LOGIN_STATE:
             {
-                $this->resetLoginData(true);
                 $code = WA_Utils::sanitizeString($_GET[self::CODE_ID]);
 
                 if (empty($code)) { return; }
@@ -122,12 +122,6 @@ class WA_Modules_Authorization_WaLogin_Controller
                     $this->storeErrorMessage($loginResult, false);
                 }
 
-                break;
-            }
-
-            default:
-            {
-                $this->resetLoginData();
                 break;
             }
         }
@@ -235,7 +229,7 @@ class WA_Modules_Authorization_WaLogin_Controller
             'client_id' => $this->module->getOAuth2ClientId(),
             'response_type' => self::OAUTH2_RESPONSE_TYPE,
             'claimed_account_id' => $this->waApiAccount->getId(),
-            'state' => $this->getLoginState(),
+            'state' => self::LOGIN_STATE,
             'redirect_uri' => $this->getRedirectUri($redirectUri)
         );
     }
@@ -243,9 +237,9 @@ class WA_Modules_Authorization_WaLogin_Controller
     public function getLogoutArgs()
     {
         return $this->mixInGetParams(
-          array(
-              self::STATE_ID => $this->getLogoutState()
-          )
+            array(
+                self::STATE_ID => self::LOGOUT_STATE
+            )
         );
     }
 
@@ -346,7 +340,7 @@ class WA_Modules_Authorization_WaLogin_Controller
         }
     }
 
-    private function resetLoginData($isStateChanged = false)
+    private function resetLoginData()
     {
         $storedError = $this->module->getSessionData(self::LOGIN_ERROR_ID);
 
@@ -358,38 +352,6 @@ class WA_Modules_Authorization_WaLogin_Controller
         $this->module->unsetSessionData(self::LOGIN_ERROR_ID);
         $this->oAuth2Token = null;
         $this->wpUserId = null;
-
-        if ($isStateChanged === true)
-        {
-            $this->module->unsetSessionData(self::LOGIN_STATE_ID);
-            $this->module->unsetSessionData(self::LOGOUT_STATE_ID);
-        }
-    }
-
-    private function getLoginState()
-    {
-        $loginState = $this->module->getSessionData(self::LOGIN_STATE_ID);
-
-        if (empty($loginState))
-        {
-            $loginState = wp_hash_password(wp_generate_password());
-            $this->module->setSessionData(self::LOGIN_STATE_ID, $loginState);
-        }
-
-        return $loginState;
-    }
-
-    private function getLogoutState()
-    {
-        $logoutState = $this->module->getSessionData(self::LOGOUT_STATE_ID);
-
-        if (empty($logoutState))
-        {
-            $logoutState = wp_hash_password(wp_generate_password());
-            $this->module->setSessionData(self::LOGOUT_STATE_ID, $logoutState);
-        }
-
-        return $logoutState;
     }
 
     private function getLogoutNonce($accessToken, $email, $redirectUri)

@@ -99,6 +99,9 @@ Restricted content.
 
 == Changelog ==
 
+= 1.0.6 =
+* Removed a conflict with Beaver Builder
+
 = 1.0.5 =
 * Removed a conflict with Wordfence Security
 * Removed a conflict with WP-SpamFree
@@ -116,6 +119,9 @@ Restricted content.
 * Initial stable release.
 
 == Upgrade Notice ==
+
+= 1.0.6 =
+* Removed a conflict with Beaver Builder
 
 = 1.0.5 =
 * Removed a conflict with Wordfence Security
