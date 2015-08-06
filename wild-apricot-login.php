@@ -45,7 +45,6 @@ class WaIntegrationPlugin
         'session_name' => 'wa_session',
         'session_expiration_time' => 1800,
         'session_expiration_offset' => 300,
-        'session_name' => 'wa_integration_session',
         'logged_in_session_name' => 'wa_logged_in_session',
 
         'wa_role_prefix' => 'wa_level_',
