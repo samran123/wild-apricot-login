@@ -4,7 +4,7 @@
     Plugin Name: Wild Apricot Login
     Plugin URI: http://www.wildapricot.com/
     Description: Provides single sign-on service for Wild Apricot members to provide access to restricted Wild Apricot content.
-    Version: 1.0.6
+    Version: 1.0.7
     Author: Wild Apricot
     Author URI: http://www.wildapricot.com/
     License: GPL2
@@ -19,7 +19,7 @@ class WaIntegrationPlugin
     private static $config = array
     (
         // General settings
-        'version' => '1.0.6',
+        'version' => '1.0.7',
 
         // WA services settings
         'wa_oauth_provider_url' => 'https://oauth.wildapricot.org', // wa OAuth2 service url
@@ -41,6 +41,10 @@ class WaIntegrationPlugin
         'option_name' => 'wa_integration_options',
         'settings_option_name' => 'wa_integration_settings',
 
+        // Session settings
+        'session_name' => 'wa_session',
+        'session_expiration_time' => 1800,
+        'session_expiration_offset' => 300,
         'session_name' => 'wa_integration_session',
         'logged_in_session_name' => 'wa_logged_in_session',
 

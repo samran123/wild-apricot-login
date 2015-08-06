@@ -15,7 +15,11 @@ class WA_Modules_Core_Module extends WA_Modules_Base_Module implements WA_Module
         parent::activate($core, $args);
 
         $this->options = new WA_Modules_Core_Options($this->plugin->getConfigOption('option_name'));
-        $this->session = new WA_Modules_Core_Session($this->plugin->getConfigOption('session_name'));
+        $this->session = new WA_Modules_Core_Session_Manager(
+            $this->plugin->getConfigOption('session_name'),
+            $this->plugin->getConfigOption('session_expiration_time'),
+            $this->plugin->getConfigOption('session_expiration_offset')
+        );
 
         $this->oAuthClient = new WA_Modules_Core_WaOAuth_Client($this, $this->plugin->getConfigOption('wa_oauth_provider_url'));
         $this->apiClient = new WA_Modules_Core_WaApi_Client($this, $this->oAuthClient, $this->plugin->getConfigOption('wa_api_url'));
